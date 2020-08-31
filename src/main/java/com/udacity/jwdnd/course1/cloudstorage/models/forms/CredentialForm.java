@@ -4,11 +4,16 @@ public class CredentialForm {
     private String url;
     private String username;
     private String password;
+    private Integer userId;
 
-    public CredentialForm(String url, String username, String password) {
+    public CredentialForm() {
+    }
+
+    public CredentialForm(String url, String username, String password, Integer userId) {
         this.url = url;
         this.username = username;
         this.password = password;
+        this.userId = userId;
     }
 
     public String getUrl() {
@@ -33,5 +38,13 @@ public class CredentialForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
