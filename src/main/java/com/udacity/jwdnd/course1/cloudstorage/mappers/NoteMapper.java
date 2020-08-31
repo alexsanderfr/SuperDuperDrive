@@ -12,19 +12,21 @@ public interface NoteMapper {
     @Select("SELECT * FROM NOTES WHERE notetitle = #{noteTitle}")
     Note selectNote(String noteTitle);
 
+    @Select("SELECT * FROM NOTES WHERE userid = #{userId}")
+    List<Note> selectNotesFromUser(Integer userId);
+
     @Select("SELECT * FROM NOTES")
     List<Note> selectAllNotes();
 
-    @Insert("INSERT INTO NOTES (noteTitle, notedescription) " +
-            "VALUES(#{noteTitle}, #{noteDescription})")
-    @Options(useGeneratedKeys = true, keyProperty = "userId")
-    int insertNote(Note Note);
+    @Insert("INSERT INTO NOTES (notetitle, notedescription, userid) " +
+            "VALUES(#{noteTitle}, #{noteDescription}, #{userId})")
+    Integer insertNote(Note Note);
 
-    @Update("UPDATE NOTES SET notetitle = #{noteTitle}, notedescription = #{noteDescription} " +
-            "WHERE notetitle = #{noteTitle}")
+    @Update("UPDATE NOTES SET notetitle = #{noteTitle}, notedescription = #{noteDescription}, " +
+            "userid = #{userId} WHERE notetitle = #{noteTitle}")
     @Options(useGeneratedKeys = true, keyProperty = "userId")
-    int updateNote(Note Note);
+    Integer updateNote(Note Note);
 
-    @Delete("DELETE * FROM NOTES WHERE notetitle = #{noteTitle}")
-    void deleteNote(String noteTitle);
+    @Delete("DELETE * FROM NOTES WHERE noteid = #{noteId}")
+    Integer deleteNote(Integer noteId);
 }

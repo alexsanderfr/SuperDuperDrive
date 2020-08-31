@@ -17,13 +17,13 @@ public interface UserMapper {
 
     @Insert("INSERT INTO USERS (username, salt, password, firstname, lastname) " +
             "VALUES(#{username}, #{salt}, #{password}, #{firstName}, #{lastName})")
-    int insertUser(User user);
+    Integer insertUser(User user);
 
     @Update("UPDATE USERS SET username = #{username}, salt = #{salt}, password = #{password}, " +
             "firstname = #{firstName}, lastname = #{lastName} WHERE username = #{username}")
-    int updateUser(User user);
+    Integer updateUser(User user);
 
-    @Delete("DELETE * FROM USERS WHERE username = #{username}")
-    void deleteUser(String username);
+    @Delete("DELETE * FROM USERS WHERE userid = #{userId}")
+    Integer deleteUser(Integer userId);
 
 }

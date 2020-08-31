@@ -105,7 +105,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" th:object="${noteForm}" th:action="@{/home}" method="POST">
+                                <form action="#" th:object="${noteForm}" th:action="@{/note}" method="POST">
                                     <input type="hidden" name="noteId" id="note-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Title</label>
@@ -174,7 +174,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" th:object="${credentialForm}" th:action="@{/home}" method="POST">
+                                <form action="#" th:object="${credentialForm}" th:action="@{/credential}" method="POST">
                                     <input type="hidden" name="credentialId" id="credential-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">URL</label>

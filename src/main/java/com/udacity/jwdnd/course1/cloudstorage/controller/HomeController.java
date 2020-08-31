@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -40,37 +39,17 @@ public class HomeController {
                       @ModelAttribute("noteForm") NoteForm noteForm,
                       @ModelAttribute("credentialForm") CredentialForm credentialForm,
                       Model model) {
-        if (!authentication.isAuthenticated() || userService.getUser(authentication.getName()) == null) {
-            return "login";
+        String username = authentication.getName();
+        if (!authentication.isAuthenticated() || userService.getUser(username) == null) {
+            return "redirect:/login";
         }
-        model.addAttribute("userFiles", fileService.getFiles());
-        model.addAttribute("userNotes", noteService.getNotes());
-        model.addAttribute("userCredentials", credentialService.getCredentials());
+        User currentUser = userService.getUser(username);
+        Integer userId = currentUser.getUserId();
+
+        model.addAttribute("userFiles", fileService.getFilesFromUser(userId));
+        model.addAttribute("userNotes", noteService.getNotesFromUser(userId));
+        model.addAttribute("userCredentials", credentialService.getCredentialsFromUser(userId));
         return "home";
     }
 
-    @PostMapping
-    public String post(Authentication authentication,
-                       @ModelAttribute("noteForm") NoteForm noteForm,
-                       @ModelAttribute("credentialForm") CredentialForm credentialForm,
-                       Model model) {
-        User currentUser = userService.getUser(authentication.getName());
-
-        if (noteForm != null && noteForm.isValid()) {
-            noteService.insertNote(noteForm);
-            noteForm.setTitle("");
-            noteForm.setDescription("");
-        } else if (credentialForm != null && credentialForm.isValid()) {
-            credentialForm.setUserId(currentUser.getUserId());
-            credentialService.insetCredential(credentialForm);
-            credentialForm.setUrl("");
-            credentialForm.setUsername("");
-            credentialForm.setPassword("");
-        }
-
-        model.addAttribute("userFiles", fileService.getFiles());
-        model.addAttribute("userNotes", noteService.getNotes());
-        model.addAttribute("userCredentials", credentialService.getCredentials());
-        return "home";
-    }
 }

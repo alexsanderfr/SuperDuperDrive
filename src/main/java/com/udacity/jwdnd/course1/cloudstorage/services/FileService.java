@@ -14,7 +14,30 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
-    public List<File> getFiles() {
+    public File getFile(String username) {
+        return fileMapper.selectFile(username);
+    }
+
+    public List<File> getFilesFromUser(Integer userId) {
+        return fileMapper.selectFilesFromUser(userId);
+    }
+
+    public List<File> getAllFiles() {
         return fileMapper.selectAllFiles();
     }
+
+    public void insetFile() {
+        File file = new File();
+        fileMapper.insertFile(file);
+    }
+
+    public void updateFile(File file) {
+        fileMapper.insertFile(file);
+    }
+
+    public Integer deleteFile(File file) {
+        Integer fileId = file.getFileId();
+        return fileMapper.deleteFile(fileId);
+    }
 }
+
