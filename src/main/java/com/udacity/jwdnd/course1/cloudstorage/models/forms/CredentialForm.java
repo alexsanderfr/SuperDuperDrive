@@ -16,6 +16,12 @@ public class CredentialForm {
         this.userId = userId;
     }
 
+    public boolean isValid() {
+        return url != null && !url.isBlank()
+                && username != null && !username.isBlank()
+                && password != null && !password.isBlank();
+    }
+
     public String getUrl() {
         return url;
     }

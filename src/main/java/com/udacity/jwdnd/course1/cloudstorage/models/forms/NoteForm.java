@@ -15,6 +15,11 @@ public class NoteForm {
         this.userId = userId;
     }
 
+    public boolean isValid() {
+        return title != null && !title.isBlank()
+                && description != null && !description.isBlank();
+    }
+
     public String getTitle() {
         return title;
     }
