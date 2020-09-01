@@ -35,7 +35,9 @@ public class NoteService {
         return noteMapper.insertNote(note);
     }
 
-    public Integer updateNote(Note note, NoteForm noteForm) {
+    public Integer updateNote(NoteForm noteForm) {
+        Note note = new Note();
+        note.setNoteId(noteForm.getNoteId());
         note.setNoteTitle(noteForm.getTitle());
         note.setNoteDescription(noteForm.getDescription());
         note.setUserId(noteForm.getUserId());

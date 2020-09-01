@@ -27,7 +27,11 @@ public class NoteController {
     public String post(Authentication authentication, @ModelAttribute("noteForm") NoteForm noteForm) {
         User currentUser = userService.getUser(authentication.getName());
         noteForm.setUserId(currentUser.getUserId());
-        noteService.insertNote(noteForm);
+        if (noteForm.getNoteId() == null) {
+            noteService.insertNote(noteForm);
+        } else {
+            noteService.updateNote(noteForm);
+        }
         noteForm.setTitle("");
         noteForm.setDescription("");
 

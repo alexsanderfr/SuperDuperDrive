@@ -84,7 +84,17 @@
                         <tbody th:each="note : ${userNotes}">
                         <tr>
                             <td>
-                                <button type="button" class="btn btn-success">Edit</button>
+                                <button type="button"
+                                        th:data-id="${note.getNoteId()}"
+                                        th:data-title="${note.getNoteTitle()}"
+                                        th:data-description="${note.getNoteDescription()}"
+                                        th:onclick="javascript:showNoteModal(
+                                            this.getAttribute('data-id'),
+                                            this.getAttribute('data-title'),
+                                            this.getAttribute('data-description')
+                                        );"
+                                        class="btn btn-success">Edit
+                                </button>
                                 <a class="btn btn-danger">Delete</a>
                             </td>
                             <th scope="row" th:text="${note.getNoteTitle()}">Example Note Title</th>
@@ -152,7 +162,19 @@
                         <tbody th:each="credential : ${userCredentials}">
                         <tr>
                             <td>
-                                <button type="button" class="btn btn-success">Edit</button>
+                                <button type="button"
+                                        th:data-id="${credential.getCredentialId()}"
+                                        th:data-url="${credential.getUrl()}"
+                                        th:data-username="${credential.getUsername()}"
+                                        th:data-password="${credential.getPassword()}"
+                                        th:onclick="javascript:showCredentialModal(
+                                            this.getAttribute('data-id'),
+                                            this.getAttribute('data-url'),
+                                            this.getAttribute('data-username'),
+                                            this.getAttribute('data-password')
+                                        );"
+                                        class="btn btn-success">Edit
+                                </button>
                                 <a class="btn btn-danger">Delete</a>
                             </td>
                             <th scope="row" th:text="${credential.getUrl()}">Example Credential URL</th>

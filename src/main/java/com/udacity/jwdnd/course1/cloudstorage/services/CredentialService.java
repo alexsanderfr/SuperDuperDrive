@@ -29,7 +29,7 @@ public class CredentialService {
         return credentialMapper.selectAllCredentials();
     }
 
-    public void insetCredential(CredentialForm credentialForm) {
+    public void insertCredential(CredentialForm credentialForm) {
         Credential credential = new Credential();
         credential.setUrl(credentialForm.getUrl());
         credential.setUsername(credentialForm.getUsername());
@@ -38,7 +38,9 @@ public class CredentialService {
         credentialMapper.insertCredential(credential);
     }
 
-    public void updateCredential(Credential credential, CredentialForm credentialForm) {
+    public void updateCredential(CredentialForm credentialForm) {
+        Credential credential = new Credential();
+        credential.setCredentialId(credentialForm.getCredentialId());
         credential.setUrl(credentialForm.getUrl());
         credential.setUsername(credentialForm.getUsername());
         credential.setPassword(credentialForm.getPassword());

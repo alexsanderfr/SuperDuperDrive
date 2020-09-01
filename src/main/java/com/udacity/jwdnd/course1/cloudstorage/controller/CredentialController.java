@@ -25,7 +25,11 @@ public class CredentialController {
     public String post(Authentication authentication, @ModelAttribute("credentialForm") CredentialForm credentialForm) {
         User currentUser = userService.getUser(authentication.getName());
         credentialForm.setUserId(currentUser.getUserId());
-        credentialService.insetCredential(credentialForm);
+        if (credentialForm.getCredentialId() == null) {
+            credentialService.insertCredential(credentialForm);
+        } else {
+            credentialService.updateCredential(credentialForm);
+        }
         credentialForm.setUrl("");
         credentialForm.setUsername("");
         credentialForm.setPassword("");

@@ -23,7 +23,7 @@ public interface NoteMapper {
     Integer insertNote(Note Note);
 
     @Update("UPDATE NOTES SET notetitle = #{noteTitle}, notedescription = #{noteDescription}, " +
-            "userid = #{userId} WHERE notetitle = #{noteTitle}")
+            "userid = #{userId} WHERE noteid = #{noteId}")
     @Options(useGeneratedKeys = true, keyProperty = "userId")
     Integer updateNote(Note Note);
 
