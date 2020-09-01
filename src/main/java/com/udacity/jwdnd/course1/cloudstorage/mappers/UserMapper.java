@@ -23,7 +23,7 @@ public interface UserMapper {
             "firstname = #{firstName}, lastname = #{lastName} WHERE username = #{username}")
     Integer updateUser(User user);
 
-    @Delete("DELETE * FROM USERS WHERE userid = #{userId}")
+    @Delete("DELETE FROM USERS WHERE userid = #{userId}")
     Integer deleteUser(Integer userId);
 
 }

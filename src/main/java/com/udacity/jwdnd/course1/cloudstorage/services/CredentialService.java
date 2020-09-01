@@ -48,8 +48,7 @@ public class CredentialService {
         credentialMapper.insertCredential(credential);
     }
 
-    public Integer deleteCredential(Credential credential) {
-        Integer credentialId = credential.getCredentialId();
+    public Integer deleteCredential(Integer credentialId) {
         return credentialMapper.deleteCredential(credentialId);
     }
 }

@@ -35,8 +35,7 @@ public class FileService {
         fileMapper.insertFile(file);
     }
 
-    public Integer deleteFile(File file) {
-        Integer fileId = file.getFileId();
+    public Integer deleteFile(Integer fileId) {
         return fileMapper.deleteFile(fileId);
     }
 }
