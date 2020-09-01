@@ -39,10 +39,10 @@ public class HomeController {
                       @ModelAttribute("noteForm") NoteForm noteForm,
                       @ModelAttribute("credentialForm") CredentialForm credentialForm,
                       Model model) {
-        String username = authentication.getName();
-        if (!authentication.isAuthenticated() || userService.getUser(username) == null) {
+        if (!authentication.isAuthenticated()) {
             return "redirect:/login";
         }
+        String username = authentication.getName();
         User currentUser = userService.getUser(username);
         Integer userId = currentUser.getUserId();
 
