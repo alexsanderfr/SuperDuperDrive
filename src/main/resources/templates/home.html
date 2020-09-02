@@ -13,7 +13,7 @@
     <div id="logoutDiv">
         <form action="#" th:action="@{/logout}"
               th:method="'post'">
-            <button type="submit" class="btn btn-secondary float-right">Logout</button>
+            <button id="logoutButton" type="submit" class="btn btn-secondary float-right">Logout</button>
         </form>
     </div>
     <div id="contentDiv" style="clear: right;">
@@ -40,7 +40,7 @@
                                 <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
                             </div>
                             <div class="col-sm-4">
-                                <button type="submit" class="btn btn-dark">Upload</button>
+                                <button id="fileUploadSubmitButton" type="submit" class="btn btn-dark">Upload</button>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             <th style="width: 80%" scope="col">File Name</th>
                         </tr>
                         </thead>
-                        <tbody th:each="file : ${userFiles}">
+                        <tbody id="fileList" th:each="file : ${userFiles}">
                         <tr>
                             <td>
                                 <a th:href="@{|/file/${file.getFileId()}|}" target="_blank" class="btn btn-success">View</a>
@@ -68,13 +68,13 @@
 
             <!-- Notes -->
             <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                <button style="margin: 0.25em;" type="button" class="btn btn-info float-right"
+                <button style="margin: 0.25em;" id="addNoteButton" type="button" class="btn btn-info float-right"
                         onclick="showNoteModal()">
                     + Add a New Note
                 </button>
 
                 <div class="table-responsive">
-                    <table class="table table-striped" id="userTable">
+                    <table class="table table-striped" id="noteTable">
                         <thead>
                         <tr>
                             <th style="width: 20%" scope="col"></th>
@@ -82,7 +82,7 @@
                             <th style="width: 60%" scope="col">Description</th>
                         </tr>
                         </thead>
-                        <tbody th:each="note : ${userNotes}">
+                        <tbody id="noteBody" th:each="note : ${userNotes}">
                         <tr>
                             <td>
                                 <button type="button"
@@ -147,7 +147,7 @@
 
             <!-- Credentials -->
             <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
-                <button style="margin: 0.25em;" type="button" class="btn btn-info float-right"
+                <button style="margin: 0.25em;" id="addCredentialButton" type="button" class="btn btn-info float-right"
                         onclick="showCredentialModal()">
                     + Add a New Credential
                 </button>
@@ -162,7 +162,7 @@
                             <th style="width: 25%" scope="col">Password</th>
                         </tr>
                         </thead>
-                        <tbody th:each="credential : ${userCredentials}">
+                        <tbody id="credentialBody" th:each="credential : ${userCredentials}">
                         <tr>
                             <td>
                                 <button type="button"
