@@ -30,6 +30,7 @@ public class CredentialService {
     }
 
     public Integer insertCredential(CredentialForm credentialForm, Integer userId) {
+        if (!credentialForm.isValid() || userId == null) return -1;
         Credential credential = new Credential();
         credential.setUserId(userId);
         createCredentialFromForm(credentialForm, credential);
@@ -37,6 +38,7 @@ public class CredentialService {
     }
 
     public Integer updateCredential(CredentialForm credentialForm, Integer userId) {
+        if (!credentialForm.isValid() || userId == null) return -1;
         Credential credential = new Credential();
         credential.setCredentialId(credentialForm.getCredentialId());
         credential.setUserId(userId);

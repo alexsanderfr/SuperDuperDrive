@@ -35,6 +35,7 @@ public class FileService {
     }
 
     public Integer insertFile(MultipartFile multipartFile, Integer userId) {
+        if (multipartFile == null || multipartFile.isEmpty() || userId == null) return -1;
         File file = new File();
         try {
             file.setFileData(multipartFile.getBytes());
@@ -50,6 +51,7 @@ public class FileService {
     }
 
     public Integer updateFile(File file) {
+        if (file == null) return -1;
         return fileMapper.insertFile(file);
     }
 

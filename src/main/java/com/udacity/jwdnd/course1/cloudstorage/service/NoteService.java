@@ -28,6 +28,7 @@ public class NoteService {
     }
 
     public Integer insertNote(NoteForm noteForm, Integer userId) {
+        if (!noteForm.isValid() || userId == null) return -1;
         Note note = new Note();
         note.setNoteTitle(noteForm.getTitle());
         note.setNoteDescription(noteForm.getDescription());
@@ -36,6 +37,7 @@ public class NoteService {
     }
 
     public Integer updateNote(NoteForm noteForm, Integer userId) {
+        if (!noteForm.isValid() || userId == null) return -1;
         Note note = new Note();
         note.setNoteId(noteForm.getNoteId());
         note.setNoteTitle(noteForm.getTitle());
