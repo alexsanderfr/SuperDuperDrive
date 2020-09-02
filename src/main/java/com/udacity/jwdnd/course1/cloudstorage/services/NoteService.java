@@ -27,20 +27,20 @@ public class NoteService {
         return noteMapper.selectAllNotes();
     }
 
-    public Integer insertNote(NoteForm noteForm) {
+    public Integer insertNote(NoteForm noteForm, Integer userId) {
         Note note = new Note();
         note.setNoteTitle(noteForm.getTitle());
         note.setNoteDescription(noteForm.getDescription());
-        note.setUserId(noteForm.getUserId());
+        note.setUserId(userId);
         return noteMapper.insertNote(note);
     }
 
-    public Integer updateNote(NoteForm noteForm) {
+    public Integer updateNote(NoteForm noteForm, Integer userId) {
         Note note = new Note();
         note.setNoteId(noteForm.getNoteId());
         note.setNoteTitle(noteForm.getTitle());
         note.setNoteDescription(noteForm.getDescription());
-        note.setUserId(noteForm.getUserId());
+        note.setUserId(userId);
         return noteMapper.updateNote(note);
     }
 

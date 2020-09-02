@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 @Mapper
 public interface FileMapper {
-    @Select("SELECT * FROM FILES WHERE filename = #{fileName}")
-    File selectFile(String fileName);
+    @Select("SELECT * FROM FILES WHERE fileid = #{fileId}")
+    File selectFile(String fileId);
 
     @Select("SELECT * FROM FILES WHERE userid = #{userId}")
     List<File> selectFilesFromUser(Integer userId);

@@ -5,17 +5,15 @@ public class CredentialForm {
     private String url;
     private String username;
     private String password;
-    private Integer userId;
 
     public CredentialForm() {
     }
 
-    public CredentialForm(Integer credentialId, String url, String username, String password, Integer userId) {
+    public CredentialForm(Integer credentialId, String url, String username, String password) {
         this.credentialId = credentialId;
         this.url = url;
         this.username = username;
         this.password = password;
-        this.userId = userId;
     }
 
     public boolean isValid() {
@@ -56,11 +54,4 @@ public class CredentialForm {
         this.password = password;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 }

@@ -4,7 +4,6 @@ public class NoteForm {
     private Integer noteId;
     private String title;
     private String description;
-    private Integer userId;
 
 
     public NoteForm() {
@@ -14,7 +13,6 @@ public class NoteForm {
         this.noteId = noteId;
         this.title = title;
         this.description = description;
-        this.userId = userId;
     }
 
     public boolean isValid() {
@@ -44,13 +42,5 @@ public class NoteForm {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

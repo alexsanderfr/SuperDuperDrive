@@ -22,21 +22,23 @@ public class CredentialController {
     @PostMapping
     public String post(Authentication authentication, @ModelAttribute("credentialForm") CredentialForm credentialForm) {
         User currentUser = userService.getUser(authentication.getName());
-        credentialForm.setUserId(currentUser.getUserId());
+        Integer rowsAffected;
         if (credentialForm.getCredentialId() == null) {
-            credentialService.insertCredential(credentialForm);
+            rowsAffected = credentialService.insertCredential(credentialForm, currentUser.getUserId());
         } else {
-            credentialService.updateCredential(credentialForm);
+            rowsAffected = credentialService.updateCredential(credentialForm, currentUser.getUserId());
         }
-        credentialForm.setUrl("");
-        credentialForm.setUsername("");
-        credentialForm.setPassword("");
+        if (rowsAffected > 0) {
+            credentialForm.setUrl("");
+            credentialForm.setUsername("");
+            credentialForm.setPassword("");
+        }
         return "redirect:/home";
     }
 
     @RequestMapping(value = "/delete/{credentialId}", method = RequestMethod.GET)
     public String delete(@PathVariable Integer credentialId) {
-        credentialService.deleteCredential(credentialId);
+        Integer rowsAffected = credentialService.deleteCredential(credentialId);
         return "redirect:/home";
     }
 }

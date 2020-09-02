@@ -22,20 +22,22 @@ public class NoteController {
     @PostMapping
     public String post(Authentication authentication, @ModelAttribute("noteForm") NoteForm noteForm) {
         User currentUser = userService.getUser(authentication.getName());
-        noteForm.setUserId(currentUser.getUserId());
+        Integer rowsAffected;
         if (noteForm.getNoteId() == null) {
-            noteService.insertNote(noteForm);
+            rowsAffected = noteService.insertNote(noteForm, currentUser.getUserId());
         } else {
-            noteService.updateNote(noteForm);
+            rowsAffected = noteService.updateNote(noteForm, currentUser.getUserId());
         }
-        noteForm.setTitle("");
-        noteForm.setDescription("");
+        if (rowsAffected > 0) {
+            noteForm.setTitle("");
+            noteForm.setDescription("");
+        }
         return "redirect:/home";
     }
 
     @RequestMapping(value = "/delete/{noteId}", method = RequestMethod.GET)
     public String delete(@PathVariable Integer noteId) {
-        noteService.deleteNote(noteId);
+        Integer rowsAffected = noteService.deleteNote(noteId);
         return "redirect:/home";
     }
 
