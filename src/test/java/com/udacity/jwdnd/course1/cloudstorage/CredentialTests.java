@@ -1,8 +1,10 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.github.javafaker.Faker;
+import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.page.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.model.page.LoginPage;
+import com.udacity.jwdnd.course1.cloudstorage.model.page.ResultPage;
 import com.udacity.jwdnd.course1.cloudstorage.model.page.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
@@ -11,17 +13,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CloudStorageApplicationTests {
+class CredentialTests {
 
     @LocalServerPort
     private int port;
     private WebDriver driver;
+    private WebDriverWait wait;
     private String baseURL;
 
     @BeforeAll
@@ -34,6 +39,8 @@ class CloudStorageApplicationTests {
     public void beforeEach() {
         baseURL = "http://localhost:" + port;
         this.driver = new ChromeDriver();
+        this.wait = new WebDriverWait(driver, 30);
+        signupAndLogin();
     }
 
     @AfterEach
@@ -44,30 +51,21 @@ class CloudStorageApplicationTests {
     }
 
     @Test
-    public void testUserCantAccessHomeUnauthenticated() {
-        driver.get(baseURL + "/login");
-        assertEquals(driver.getTitle(), "Login");
-        driver.get(baseURL + "/signup");
-        assertEquals(driver.getTitle(), "Sign Up");
+    public void testCreateCredential() {
         driver.get(baseURL + "/home");
-        assertNotEquals(driver.getTitle(), "Home");
-    }
-
-    @Test
-    public void testSignup() {
-        driver.get(baseURL + "/signup");
-        SignupPage signupPage = new SignupPage(driver);
+        HomePage homePage = new HomePage(driver);
         Faker faker = new Faker();
-        String username = faker.name().username();
-        String password = faker.lorem().word();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        signupPage.signup(firstName, lastName, username, password);
-        assertTrue(signupPage.isSignupSuccessful());
+        Credential credential = new Credential();
+        credential.setUrl(faker.internet().url());
+        credential.setUsername(faker.name().username());
+        credential.setPassword(faker.lorem().word());
+        homePage.createCredential(wait, credential);
+        ResultPage resultPage = new ResultPage(driver);
+        wait.until(ExpectedConditions.titleIs("Result"));
+        assertTrue(resultPage.isSuccessShown());
     }
 
-    @Test
-    public void testLogin() {
+    public void signupAndLogin() {
         driver.get(baseURL + "/signup");
         SignupPage signupPage = new SignupPage(driver);
         Faker faker = new Faker();
@@ -79,10 +77,5 @@ class CloudStorageApplicationTests {
         driver.get(baseURL + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(username, password);
-        assertEquals(driver.getTitle(), "Home");
-        HomePage homePage = new HomePage(driver);
-        homePage.logout();
-        driver.get(baseURL + "/home");
-        assertNotEquals(driver.getTitle(), "Home");
     }
 }

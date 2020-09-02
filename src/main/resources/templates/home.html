@@ -56,8 +56,9 @@
                         <tbody id="fileList" th:each="file : ${userFiles}">
                         <tr>
                             <td>
-                                <a th:href="@{|/file/${file.getFileId()}|}" target="_blank" class="btn btn-success">View</a>
-                                <a th:href="@{|/file/delete/${file.getFileId()}|}" class="btn btn-danger" >Delete</a>
+                                <a th:href="@{|/file/${file.getFileId()}|}" target="_blank"
+                                   class="btn btn-success">View</a>
+                                <a th:href="@{|/file/delete/${file.getFileId()}|}" class="btn btn-danger">Delete</a>
                             </td>
                             <th scope="row" th:href="${file}" th:text="${file.getFileName()}">ExampleFile.txt</th>
                         </tr>
@@ -98,7 +99,9 @@
                                 </button>
                                 <a th:href="@{|/note/delete/${note.getNoteId()}|}" class="btn btn-danger">Delete</a>
                             </td>
-                            <th scope="row" th:text="${note.getNoteTitle()}">Example Note Title</th>
+                            <th th:id="${note.getNoteId()}" scope="row" th:text="${note.getNoteTitle()}">Example Note
+                                Title
+                            </th>
                             <td th:text="${note.getNoteDescription()}">Example Note Description</td>
                         </tr>
                         </tbody>
@@ -136,7 +139,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save
+                                <button id="note-save" type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save
                                     changes
                                 </button>
                             </div>
@@ -227,7 +230,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">
+                                <button id="credential-save" type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">
                                     Save changes
                                 </button>
                             </div>

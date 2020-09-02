@@ -6,10 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePage {
     @FindBy(id = "logoutButton")
     private WebElement logoutButton;
+
+    @FindBy(id = "nav-files-tab")
+    private WebElement navFilesTab;
 
     @FindBy(id = "fileUpload")
     private WebElement fileUpload;
@@ -19,6 +24,9 @@ public class HomePage {
 
     @FindBy(id = "fileTable")
     private WebElement fileTable;
+
+    @FindBy(id = "nav-notes-tab")
+    private WebElement navNotesTab;
 
     @FindBy(id = "addNoteButton")
     private WebElement addNoteButton;
@@ -41,8 +49,11 @@ public class HomePage {
     @FindBy(id = "note-description")
     private WebElement noteDescriptionField;
 
-    @FindBy(id = "noteSubmit")
-    private WebElement noteSubmitButton;
+    @FindBy(id = "note-save")
+    private WebElement noteSaveButton;
+
+    @FindBy(id = "nav-credentials-tab")
+    private WebElement navCredentialsTab;
 
     @FindBy(id = "addCredentialButton")
     private WebElement addCredentialButton;
@@ -68,26 +79,28 @@ public class HomePage {
     @FindBy(id = "credential-password")
     private WebElement credentialPasswordField;
 
-    @FindBy(id = "credentialSubmit")
-    private WebElement credentialSubmitButton;
+    @FindBy(id = "credential-save")
+    private WebElement credentialSaveButton;
 
     public HomePage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
     }
 
-    public void createNote(Note note) {
-        addNoteButton.click();
-        noteTitleField.sendKeys(note.getNoteTitle());
+    public void createNote(WebDriverWait wait, Note note) {
+        wait.until(ExpectedConditions.elementToBeClickable(navNotesTab)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(addNoteButton)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(noteTitleField)).sendKeys(note.getNoteTitle());
         noteDescriptionField.sendKeys(note.getNoteDescription());
-        noteSubmitButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(noteSaveButton)).click();
     }
 
-    public void createCredential(Credential credential) {
-        addCredentialButton.click();
-        credentialUrlField.sendKeys(credential.getUrl());
+    public void createCredential(WebDriverWait wait, Credential credential) {
+        wait.until(ExpectedConditions.elementToBeClickable(navCredentialsTab)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(addCredentialButton)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUrlField)).sendKeys(credential.getUrl());
         credentialUsernameField.sendKeys(credential.getUsername());
         credentialPasswordField.sendKeys(credential.getPassword());
-        credentialSubmitButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialSaveButton)).click();
     }
 
     public void logout() {
