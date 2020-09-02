@@ -12,9 +12,11 @@ import java.util.List;
 @Service
 public class CredentialService {
     private final CredentialMapper credentialMapper;
+    private final EncryptionService encryptionService;
 
-    public CredentialService(CredentialMapper credentialMapper) {
+    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
+        this.encryptionService = encryptionService;
     }
 
     public Credential getCredential(String username) {
@@ -31,21 +33,25 @@ public class CredentialService {
 
     public void insertCredential(CredentialForm credentialForm) {
         Credential credential = new Credential();
-        credential.setUrl(credentialForm.getUrl());
-        credential.setUsername(credentialForm.getUsername());
-        credential.setPassword(credentialForm.getPassword());
-        credential.setUserId(credentialForm.getUserId());
+        createCredentialFromForm(credentialForm, credential);
         credentialMapper.insertCredential(credential);
     }
 
     public void updateCredential(CredentialForm credentialForm) {
         Credential credential = new Credential();
         credential.setCredentialId(credentialForm.getCredentialId());
+        createCredentialFromForm(credentialForm, credential);
+        credentialMapper.updateCredential(credential);
+    }
+
+    private void createCredentialFromForm(CredentialForm credentialForm, Credential credential) {
         credential.setUrl(credentialForm.getUrl());
         credential.setUsername(credentialForm.getUsername());
-        credential.setPassword(credentialForm.getPassword());
+        String key = encryptionService.makeKey();
+        String encryptedPassword = encryptionService.encryptValue(credentialForm.getPassword(), key);
+        credential.setKey(key);
+        credential.setPassword(encryptedPassword);
         credential.setUserId(credentialForm.getUserId());
-        credentialMapper.insertCredential(credential);
     }
 
     public Integer deleteCredential(Integer credentialId) {

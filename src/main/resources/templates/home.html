@@ -169,7 +169,7 @@
                                         th:data-id="${credential.getCredentialId()}"
                                         th:data-url="${credential.getUrl()}"
                                         th:data-username="${credential.getUsername()}"
-                                        th:data-password="${credential.getPassword()}"
+                                        th:data-password="${@encryptionService.decryptValue(credential.getPassword(), credential.getKey())}"
                                         th:onclick="javascript:showCredentialModal(
                                             this.getAttribute('data-id'),
                                             this.getAttribute('data-url'),
