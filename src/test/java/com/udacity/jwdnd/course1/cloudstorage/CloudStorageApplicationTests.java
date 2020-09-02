@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.github.javafaker.Faker;
 import com.udacity.jwdnd.course1.cloudstorage.model.page.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.model.page.LoginPage;
 import com.udacity.jwdnd.course1.cloudstorage.model.page.SignupPage;
@@ -56,10 +57,11 @@ class CloudStorageApplicationTests {
     public void testSignup() {
         driver.get(baseURL + "/signup");
         SignupPage signupPage = new SignupPage(driver);
-        String username = "janedoe";
-        String password = "12345678";
-        String firstName = "Jane";
-        String lastName = "Doe";
+        Faker faker = new Faker();
+        String username = faker.name().username();
+        String password = faker.lorem().word();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
         signupPage.signup(firstName, lastName, username, password);
         assertTrue(signupPage.isSignupSuccessful());
     }
@@ -68,10 +70,11 @@ class CloudStorageApplicationTests {
     public void testLogin() {
         driver.get(baseURL + "/signup");
         SignupPage signupPage = new SignupPage(driver);
-        String username = "johndoe";
-        String password = "12345678";
-        String firstName = "John";
-        String lastName = "Doe";
+        Faker faker = new Faker();
+        String username = faker.name().username();
+        String password = faker.lorem().word();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
         signupPage.signup(firstName, lastName, username, password);
         driver.get(baseURL + "/login");
         LoginPage loginPage = new LoginPage(driver);
