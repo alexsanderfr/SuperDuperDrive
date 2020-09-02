@@ -1,7 +1,9 @@
 package com.udacity.jwdnd.course1.cloudstorage.model.page;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class ResultPage {
     @FindBy(id = "successDiv")
@@ -15,6 +17,10 @@ public class ResultPage {
 
     @FindBy(id = "errorHomeLink")
     private WebElement errorHomeLink;
+
+    public ResultPage(WebDriver webDriver) {
+        PageFactory.initElements(webDriver, this);
+    }
 
     public boolean isSuccessShown() {
         return successDiv.isDisplayed();

@@ -2,8 +2,10 @@ package com.udacity.jwdnd.course1.cloudstorage.model.page;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class HomePage {
     @FindBy(id = "logoutButton")
@@ -69,6 +71,9 @@ public class HomePage {
     @FindBy(id = "credentialSubmit")
     private WebElement credentialSubmitButton;
 
+    public HomePage(WebDriver webDriver) {
+        PageFactory.initElements(webDriver, this);
+    }
 
     public void createNote(Note note) {
         addNoteButton.click();
@@ -85,4 +90,7 @@ public class HomePage {
         credentialSubmitButton.click();
     }
 
+    public void logout() {
+        logoutButton.click();
+    }
 }

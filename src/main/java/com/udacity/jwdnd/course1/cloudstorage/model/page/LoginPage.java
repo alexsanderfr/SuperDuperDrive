@@ -13,7 +13,7 @@ public class LoginPage {
     @FindBy(id = "inputPassword")
     private WebElement passwordField;
 
-    @FindBy(id = "submit-button")
+    @FindBy(id = "submitButton")
     private WebElement submitButton;
 
     @FindBy(id = "signupLink")

@@ -7,16 +7,16 @@ import org.openqa.selenium.support.PageFactory;
 
 public class SignupPage {
 
-    @FindBy(id = "firstName")
+    @FindBy(id = "inputFirstName")
     private WebElement firstNameField;
 
-    @FindBy(id = "lastName")
+    @FindBy(id = "inputLastName")
     private WebElement lastNameField;
 
-    @FindBy(id = "username")
+    @FindBy(id = "inputUsername")
     private WebElement usernameField;
 
-    @FindBy(id = "password")
+    @FindBy(id = "inputPassword")
     private WebElement passwordField;
 
     @FindBy(id = "submitButton")
@@ -43,7 +43,11 @@ public class SignupPage {
         submitButton.click();
     }
 
-    public void goToLogin() {
-        loginLink.click();
+    public boolean isSignupSuccessful() {
+        return successMsg.isDisplayed();
+    }
+
+    public boolean isSignupUnsuccessful() {
+        return errorMsg.isDisplayed();
     }
 }
