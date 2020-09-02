@@ -1,6 +1,4 @@
-package com.udacity.jwdnd.course1.cloudstorage.models;
-
-import java.util.Objects;
+package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class Note {
     private Integer noteId;
