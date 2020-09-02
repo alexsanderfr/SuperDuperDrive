@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,15 +34,21 @@ public class FileController {
     }
 
     @PostMapping
-    public String post(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile) {
+    public String post(Authentication authentication,
+                       @RequestParam("fileUpload") MultipartFile multipartFile,
+                       Model model) {
         User currentUser = userService.getUser(authentication.getName());
         Integer rowsAffected = fileService.insertFile(multipartFile, currentUser.getUserId());
-        return "redirect:/home";
+        boolean isSuccess = rowsAffected > 0;
+        model.addAttribute("isSuccess", isSuccess);
+        return "result";
     }
 
     @RequestMapping(value = "/delete/{fileId}", method = RequestMethod.GET)
-    public String delete(@PathVariable Integer fileId) {
+    public String delete(@PathVariable Integer fileId, Model model) {
         Integer rowsAffected = fileService.deleteFile(fileId);
-        return "redirect:/home";
+        boolean isSuccess = rowsAffected > 0;
+        model.addAttribute("isSuccess", isSuccess);
+        return "result";
     }
 }

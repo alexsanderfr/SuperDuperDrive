@@ -6,6 +6,7 @@ import com.udacity.jwdnd.course1.cloudstorage.service.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -20,7 +21,9 @@ public class NoteController {
     }
 
     @PostMapping
-    public String post(Authentication authentication, @ModelAttribute("noteForm") NoteForm noteForm) {
+    public String post(Authentication authentication,
+                       @ModelAttribute("noteForm") NoteForm noteForm,
+                       Model model) {
         User currentUser = userService.getUser(authentication.getName());
         Integer rowsAffected;
         if (noteForm.getNoteId() == null) {
@@ -28,17 +31,21 @@ public class NoteController {
         } else {
             rowsAffected = noteService.updateNote(noteForm, currentUser.getUserId());
         }
-        if (rowsAffected > 0) {
+        boolean isSuccess = rowsAffected > 0;
+        if (isSuccess) {
             noteForm.setTitle("");
             noteForm.setDescription("");
         }
-        return "redirect:/home";
+        model.addAttribute("isSuccess", isSuccess);
+        return "result";
     }
 
     @RequestMapping(value = "/delete/{noteId}", method = RequestMethod.GET)
-    public String delete(@PathVariable Integer noteId) {
+    public String delete(@PathVariable Integer noteId, Model model) {
         Integer rowsAffected = noteService.deleteNote(noteId);
-        return "redirect:/home";
+        boolean isSuccess = rowsAffected > 0;
+        model.addAttribute("isSuccess", isSuccess);
+        return "result";
     }
 
 }

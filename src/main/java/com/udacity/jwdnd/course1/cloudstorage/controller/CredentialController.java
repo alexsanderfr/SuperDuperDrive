@@ -6,6 +6,7 @@ import com.udacity.jwdnd.course1.cloudstorage.service.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -20,7 +21,9 @@ public class CredentialController {
     }
 
     @PostMapping
-    public String post(Authentication authentication, @ModelAttribute("credentialForm") CredentialForm credentialForm) {
+    public String post(Authentication authentication,
+                       @ModelAttribute("credentialForm") CredentialForm credentialForm,
+                       Model model) {
         User currentUser = userService.getUser(authentication.getName());
         Integer rowsAffected;
         if (credentialForm.getCredentialId() == null) {
@@ -28,17 +31,21 @@ public class CredentialController {
         } else {
             rowsAffected = credentialService.updateCredential(credentialForm, currentUser.getUserId());
         }
-        if (rowsAffected > 0) {
+        boolean isSuccess = rowsAffected > 0;
+        if (isSuccess) {
             credentialForm.setUrl("");
             credentialForm.setUsername("");
             credentialForm.setPassword("");
         }
-        return "redirect:/home";
+        model.addAttribute("isSuccess", isSuccess);
+        return "result";
     }
 
     @RequestMapping(value = "/delete/{credentialId}", method = RequestMethod.GET)
-    public String delete(@PathVariable Integer credentialId) {
+    public String delete(@PathVariable Integer credentialId, Model model) {
         Integer rowsAffected = credentialService.deleteCredential(credentialId);
-        return "redirect:/home";
+        boolean isSuccess = rowsAffected > 0;
+        model.addAttribute("isSuccess", isSuccess);
+        return "result";
     }
 }

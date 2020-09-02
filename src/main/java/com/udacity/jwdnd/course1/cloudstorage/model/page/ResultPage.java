@@ -10,8 +10,11 @@ public class ResultPage {
     @FindBy(id = "errorDiv")
     private WebElement errorDiv;
 
-    @FindBy(id = "homeLink")
-    private WebElement homeLink;
+    @FindBy(id = "successHomeLink")
+    private WebElement successHomeLink;
+
+    @FindBy(id = "errorHomeLink")
+    private WebElement errorHomeLink;
 
     public boolean isSuccessShown() {
         return successDiv.isDisplayed();
@@ -22,6 +25,10 @@ public class ResultPage {
     }
 
     public void goToHome() {
-        homeLink.click();
+        if (isSuccessShown()) {
+            successHomeLink.click();
+        } else if (isErrorShown()) {
+            errorHomeLink.click();
+        }
     }
 }
