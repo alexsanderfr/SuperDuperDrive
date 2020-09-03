@@ -120,6 +120,23 @@ public class HomePage {
         wait.until(ExpectedConditions.elementToBeClickable(credentialSaveButton)).click();
     }
 
+    public void editCredential(WebDriverWait wait, Credential credential, String oldUsername) {
+        wait.until(ExpectedConditions.elementToBeClickable(navCredentialsTab)).click();
+        String credentialEditElementId = String.format("%s-edit", oldUsername);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(credentialEditElementId))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(credentialUsernameField)).clear();
+        credentialUsernameField.sendKeys(credential.getUsername());
+        credentialPasswordField.sendKeys(credential.getPassword());
+        credentialUrlField.sendKeys(credential.getUrl());
+        wait.until(ExpectedConditions.elementToBeClickable(credentialSaveButton)).click();
+    }
+
+    public void deleteCredential(WebDriverWait wait, String username) {
+        wait.until(ExpectedConditions.elementToBeClickable(navCredentialsTab)).click();
+        String credentialDeleteElementId = String.format("%s-delete", username);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(credentialDeleteElementId))).click();
+    }
+
     public void logout() {
         logoutButton.click();
     }

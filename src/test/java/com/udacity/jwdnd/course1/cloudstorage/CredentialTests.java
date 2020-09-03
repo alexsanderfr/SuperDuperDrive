@@ -11,14 +11,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CredentialTests {
@@ -63,6 +65,65 @@ class CredentialTests {
         ResultPage resultPage = new ResultPage(driver);
         wait.until(ExpectedConditions.titleIs("Result"));
         assertTrue(resultPage.isSuccessShown());
+        driver.get(baseURL + "/home");
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-credentials-tab"))).click();
+        String credentialUsernameElementId = String.format("%s-username", credential.getUsername());
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(credentialUsernameElementId)));
+        WebElement credentialUsernameElement = driver.findElement(By.id(credentialUsernameElementId));
+        assertEquals(credential.getUsername(), credentialUsernameElement.getAttribute("innerHTML"));
+    }
+
+    @Test
+    public void testEditCredential() {
+        driver.get(baseURL + "/home");
+        HomePage homePage = new HomePage(driver);
+        Faker faker = new Faker();
+        Credential credential = new Credential();
+        credential.setUrl(faker.internet().url());
+        credential.setUsername(faker.name().username());
+        credential.setPassword(faker.lorem().word());
+        homePage.createCredential(wait, credential);
+        ResultPage resultPage = new ResultPage(driver);
+        wait.until(ExpectedConditions.titleIs("Result"));
+        assertTrue(resultPage.isSuccessShown());
+        driver.get(baseURL + "/home");
+        Credential newCredential = new Credential();
+        newCredential.setUrl(faker.internet().url());
+        newCredential.setUsername(faker.name().username());
+        newCredential.setPassword(faker.lorem().word());
+        homePage.editCredential(wait, newCredential, credential.getUsername());
+        wait.until(ExpectedConditions.titleIs("Result"));
+        assertTrue(resultPage.isSuccessShown());
+        driver.get(baseURL + "/home");
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-credentials-tab"))).click();
+        String credentialUsernameElementId = String.format("%s-username", newCredential.getUsername());
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(credentialUsernameElementId)));
+        WebElement credentialUsernameElement = driver.findElement(By.id(credentialUsernameElementId));
+        assertEquals(newCredential.getUsername(), credentialUsernameElement.getAttribute("innerHTML"));
+    }
+
+    @Test
+    public void testDeleteCredential() {
+        driver.get(baseURL + "/home");
+        HomePage homePage = new HomePage(driver);
+        Faker faker = new Faker();
+        Credential credential = new Credential();
+        credential.setUrl(faker.internet().url());
+        credential.setUsername(faker.name().username());
+        credential.setPassword(faker.lorem().word());
+        homePage.createCredential(wait, credential);
+        ResultPage resultPage = new ResultPage(driver);
+        wait.until(ExpectedConditions.titleIs("Result"));
+        assertTrue(resultPage.isSuccessShown());
+        driver.get(baseURL + "/home");
+        homePage.deleteCredential(wait, credential.getUsername());
+        wait.until(ExpectedConditions.titleIs("Result"));
+        assertTrue(resultPage.isSuccessShown());
+        driver.get(baseURL + "/home");
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-credentials-tab"))).click();
+        String credentialUsernameElementId = String.format("%s-username", credential.getUsername());
+        boolean isPresent = driver.findElements(By.id(credentialUsernameElementId)).size() > 0;
+        assertFalse(isPresent);
     }
 
     public void signupAndLogin() {

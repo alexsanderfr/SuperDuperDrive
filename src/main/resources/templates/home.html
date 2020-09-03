@@ -97,14 +97,17 @@
                                         );"
                                         class="btn btn-success">Edit
                                 </button>
-                                <a th:id="|${note.getNoteTitle()}-delete|" th:href="@{|/note/delete/${note.getNoteId()}|}"
+                                <a th:id="|${note.getNoteTitle()}-delete|"
+                                   th:href="@{|/note/delete/${note.getNoteId()}|}"
                                    class="btn btn-danger">Delete</a>
                             </td>
-                            <th th:id="|${note.getNoteTitle()}-title|" scope="row" th:text="${note.getNoteTitle()}">Example
+                            <th th:id="|${note.getNoteTitle()}-title|" scope="row" th:text="${note.getNoteTitle()}">
+                                Example
                                 Note
                                 Title
                             </th>
-                            <td th:id="|${note.getNoteTitle()}-description|" th:text="${note.getNoteDescription()}">Example
+                            <td th:id="|${note.getNoteTitle()}-description|" th:text="${note.getNoteDescription()}">
+                                Example
                                 Note Description
                             </td>
                         </tr>
@@ -173,7 +176,7 @@
                         <tbody id="credentialBody" th:each="credential : ${userCredentials}">
                         <tr>
                             <td>
-                                <button type="button"
+                                <button th:id="|${credential.getUsername()}-edit|" type="button"
                                         th:data-id="${credential.getCredentialId()}"
                                         th:data-url="${credential.getUrl()}"
                                         th:data-username="${credential.getUsername()}"
@@ -186,12 +189,19 @@
                                             );"
                                         class="btn btn-success">Edit
                                 </button>
-                                <a th:href="@{|/credential/delete/${credential.getCredentialId()}|}"
+                                <a th:id="|${credential.getUsername()}-delete|"
+                                   th:href="@{|/credential/delete/${credential.getCredentialId()}|}"
                                    class="btn btn-danger">Delete</a>
                             </td>
-                            <th scope="row" th:text="${credential.getUrl()}">Example Credential URL</th>
-                            <td th:text="${credential.getUsername()}">Example Credential Username</td>
-                            <td th:text="${credential.getPassword()}">Example Credential Password</td>
+                            <th th:id="|${credential.getUsername()}-url|" scope="row" th:text="${credential.getUrl()}">
+                                Example Credential URL
+                            </th>
+                            <td th:id="|${credential.getUsername()}-username|" th:text="${credential.getUsername()}">
+                                Example Credential Username
+                            </td>
+                            <td th:id="|${credential.getUsername()}-password|" th:text="${credential.getPassword()}">
+                                Example Credential Password
+                            </td>
                         </tr>
                         </tbody>
                     </table>
