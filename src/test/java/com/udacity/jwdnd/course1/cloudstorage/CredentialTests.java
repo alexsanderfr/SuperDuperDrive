@@ -100,6 +100,36 @@ class CredentialTests {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(credentialUsernameElementId)));
         WebElement credentialUsernameElement = driver.findElement(By.id(credentialUsernameElementId));
         assertEquals(newCredential.getUsername(), credentialUsernameElement.getAttribute("innerHTML"));
+
+    }
+
+    @Test
+    public void testCredentialPasswordVisibility() {
+        driver.get(baseURL + "/home");
+        HomePage homePage = new HomePage(driver);
+        Faker faker = new Faker();
+        Credential credential = new Credential();
+        credential.setUrl(faker.internet().url());
+        credential.setUsername(faker.name().username());
+        credential.setPassword(faker.lorem().word());
+        homePage.createCredential(wait, credential);
+        ResultPage resultPage = new ResultPage(driver);
+        wait.until(ExpectedConditions.titleIs("Result"));
+        assertTrue(resultPage.isSuccessShown());
+        driver.get(baseURL + "/home");
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-credentials-tab"))).click();
+        String credentialUsernameElementId = String.format("%s-username", credential.getUsername());
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(credentialUsernameElementId)));
+        WebElement credentialUsernameElement = driver.findElement(By.id(credentialUsernameElementId));
+        assertEquals(credential.getUsername(), credentialUsernameElement.getAttribute("innerHTML"));
+        String credentialPasswordElementId = String.format("%s-password", credential.getUsername());
+        WebElement credentialPasswordElement = driver.findElement(By.id(credentialPasswordElementId));
+        assertNotEquals(credential.getPassword(), credentialPasswordElement.getAttribute("innerHTML"));
+        String credentialEditElementId = String.format("%s-edit", credential.getUsername());
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(credentialEditElementId))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-password")));
+        WebElement passwordVisible = driver.findElement(By.id("credential-password"));
+        assertEquals(credential.getPassword(), passwordVisible.getAttribute("value"));
     }
 
     @Test
