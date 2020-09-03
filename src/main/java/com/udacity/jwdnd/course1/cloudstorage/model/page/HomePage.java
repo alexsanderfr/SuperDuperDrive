@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.model.page;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -92,6 +93,22 @@ public class HomePage {
         wait.until(ExpectedConditions.elementToBeClickable(noteTitleField)).sendKeys(note.getNoteTitle());
         noteDescriptionField.sendKeys(note.getNoteDescription());
         wait.until(ExpectedConditions.elementToBeClickable(noteSaveButton)).click();
+    }
+
+    public void editNote(WebDriverWait wait, Note note, String oldTitle) {
+        wait.until(ExpectedConditions.elementToBeClickable(navNotesTab)).click();
+        String noteEditElementId = String.format("%s-edit", oldTitle);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(noteEditElementId))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(noteTitleField)).clear();
+        noteTitleField.sendKeys(note.getNoteTitle());
+        noteDescriptionField.sendKeys(note.getNoteDescription());
+        wait.until(ExpectedConditions.elementToBeClickable(noteSaveButton)).click();
+    }
+
+    public void deleteNote(WebDriverWait wait, String title) {
+        wait.until(ExpectedConditions.elementToBeClickable(navNotesTab)).click();
+        String noteDeleteElementId = String.format("%s-delete", title);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id(noteDeleteElementId))).click();
     }
 
     public void createCredential(WebDriverWait wait, Credential credential) {

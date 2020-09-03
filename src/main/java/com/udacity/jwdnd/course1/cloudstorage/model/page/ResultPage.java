@@ -29,12 +29,4 @@ public class ResultPage {
     public boolean isErrorShown() {
         return errorDiv.isDisplayed();
     }
-
-    public void goToHome() {
-        if (isSuccessShown()) {
-            successHomeLink.click();
-        } else if (isErrorShown()) {
-            errorHomeLink.click();
-        }
-    }
 }

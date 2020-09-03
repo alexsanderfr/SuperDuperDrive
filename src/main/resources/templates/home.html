@@ -86,7 +86,7 @@
                         <tbody id="noteBody" th:each="note : ${userNotes}">
                         <tr>
                             <td>
-                                <button type="button"
+                                <button th:id="|${note.getNoteTitle()}-edit|" type="button"
                                         th:data-id="${note.getNoteId()}"
                                         th:data-title="${note.getNoteTitle()}"
                                         th:data-description="${note.getNoteDescription()}"
@@ -97,12 +97,16 @@
                                         );"
                                         class="btn btn-success">Edit
                                 </button>
-                                <a th:href="@{|/note/delete/${note.getNoteId()}|}" class="btn btn-danger">Delete</a>
+                                <a th:id="|${note.getNoteTitle()}-delete|" th:href="@{|/note/delete/${note.getNoteId()}|}"
+                                   class="btn btn-danger">Delete</a>
                             </td>
-                            <th th:id="${note.getNoteId()}" scope="row" th:text="${note.getNoteTitle()}">Example Note
+                            <th th:id="|${note.getNoteTitle()}-title|" scope="row" th:text="${note.getNoteTitle()}">Example
+                                Note
                                 Title
                             </th>
-                            <td th:text="${note.getNoteDescription()}">Example Note Description</td>
+                            <td th:id="|${note.getNoteTitle()}-description|" th:text="${note.getNoteDescription()}">Example
+                                Note Description
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -139,7 +143,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button id="note-save" type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save
+                                <button id="note-save" type="button" class="btn btn-primary"
+                                        onclick="$('#noteSubmit').click();">Save
                                     changes
                                 </button>
                             </div>
@@ -230,7 +235,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button id="credential-save" type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">
+                                <button id="credential-save" type="button" class="btn btn-primary"
+                                        onclick="$('#credentialSubmit').click();">
                                     Save changes
                                 </button>
                             </div>
