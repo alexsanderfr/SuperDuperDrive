@@ -36,6 +36,8 @@ public class FileService {
 
     public Integer insertFile(MultipartFile multipartFile, Integer userId) {
         if (multipartFile == null || multipartFile.isEmpty() || userId == null) return -1;
+        boolean filenameExists = fileMapper.selectFileByFilename(multipartFile.getOriginalFilename()) != null;
+        if (filenameExists) return -1;
         File file = new File();
         try {
             file.setFileData(multipartFile.getBytes());

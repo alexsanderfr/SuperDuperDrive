@@ -30,11 +30,13 @@ public class CredentialService {
     }
 
     public Integer insertCredential(CredentialForm credentialForm, Integer userId) {
-        if (!credentialForm.isValid() || userId == null) return -1;
+        boolean usernameAlreadyExists = credentialMapper.selectCredential(credentialForm.getUsername()) != null;
+        if (!credentialForm.isValid() || userId == null || usernameAlreadyExists) return -1;
         Credential credential = new Credential();
         credential.setUserId(userId);
         createCredentialFromForm(credentialForm, credential);
         return credentialMapper.insertCredential(credential);
+
     }
 
     public Integer updateCredential(CredentialForm credentialForm, Integer userId) {
